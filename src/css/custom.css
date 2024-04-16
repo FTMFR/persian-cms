@@ -1,0 +1,23 @@
+/* root styles */
+
+@import "../index.css";
+
+@import url("https://fonts.googleapis.com/css2?family=Lalezar&display=swap");
+
+:root {
+  /* css variables */
+
+  --white: #fff;
+  --white-50: #f0f0f0f0;
+  --blue: #471aaa;
+}
+
+body {
+  background-color: var(--white-50);
+}
+
+*,
+body,
+html {
+  font-family: "Lalezar";
+}
