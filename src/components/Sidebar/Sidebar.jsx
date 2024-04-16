@@ -6,6 +6,7 @@ import { BiCommentDetail } from "react-icons/bi";
 import { FiUsers } from "react-icons/fi";
 import { BsBagCheck } from "react-icons/bs";
 import { RiDiscountPercentLine } from "react-icons/ri";
+import { Link } from "react-router-dom";
 
 const Sidebar = () => {
   return (
@@ -13,6 +14,7 @@ const Sidebar = () => {
       <h1 className="sidebar-title">به داشبورد خود خوش آمدید.</h1>
       <ul className="sidebar-links">
         <li className="active">
+          <Link></Link>
           <a href="/">
             <IoHomeOutline className="icons" />
             صفحه اصلی
