@@ -1,12 +1,12 @@
+import { MdProductionQuantityLimits } from "react-icons/md";
+import { RiDiscountPercentLine } from "react-icons/ri";
+import { BiCommentDetail } from "react-icons/bi";
+import { IoHomeOutline } from "react-icons/io5";
+import { BsBagCheck } from "react-icons/bs";
+import { FiUsers } from "react-icons/fi";
+import { Link } from "react-router-dom";
 import React from "react";
 import "./sideBar.css";
-import { IoHomeOutline } from "react-icons/io5";
-import { MdProductionQuantityLimits } from "react-icons/md";
-import { BiCommentDetail } from "react-icons/bi";
-import { FiUsers } from "react-icons/fi";
-import { BsBagCheck } from "react-icons/bs";
-import { RiDiscountPercentLine } from "react-icons/ri";
-import { Link } from "react-router-dom";
 
 const Sidebar = () => {
   return (
@@ -14,41 +14,40 @@ const Sidebar = () => {
       <h1 className="sidebar-title">به داشبورد خود خوش آمدید.</h1>
       <ul className="sidebar-links">
         <li className="active">
-          <Link></Link>
-          <a href="/">
+          <Link to="/products">
             <IoHomeOutline className="icons" />
             صفحه اصلی
-          </a>
+          </Link>
         </li>
         <li>
-          <a href="/">
+          <Link href="/products">
             <MdProductionQuantityLimits className="icons" />
-            مقدار محصولات
-          </a>
+            محصولات
+          </Link>
         </li>
         <li>
-          <a href="/">
+          <Link to="/comments">
             <BiCommentDetail className="icons" />
             کامنت ها
-          </a>
+          </Link>
         </li>
         <li>
-          <a href="/">
-            <BsBagCheck  className="icons"/>
+          <Link to="/orders">
+            <BsBagCheck className="icons" />
             سفارشات
-          </a>
+          </Link>
         </li>
         <li>
-          <a href="/">
+          <Link to="/users">
             <FiUsers className="icons" />
             کاربران
-          </a>
+          </Link>
         </li>
         <li>
-          <a href="/">
+          <Link to="/discounts">
             <RiDiscountPercentLine className="icons" />
             تخفیفات
-          </a>
+          </Link>
         </li>
       </ul>
     </div>
