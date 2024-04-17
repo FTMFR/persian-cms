@@ -13,7 +13,7 @@ const Sidebar = () => {
     <div className="sidebar">
       <h1 className="sidebar-title">به داشبورد خود خوش آمدید.</h1>
       <ul className="sidebar-links">
-        <li className="active">
+        <li>
           <Link to="/products">
             <IoHomeOutline className="icons" />
             صفحه اصلی
