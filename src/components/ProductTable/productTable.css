@@ -1,0 +1,48 @@
+.products-table {
+  margin-top: 80px;
+  width: 100%;
+  background-color: var(--white);
+  border-radius: 10px;
+}
+
+.product-table-heading-tr {
+  text-align: center;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 70px 0 460px;
+}
+
+.product-table-tr {
+  text-align: center;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 10px 0 30px;
+}
+
+.products-table th {
+  padding: 20px;
+}
+
+.product-table td {
+  padding: 20px;
+  display: flex;
+  align-items: center;
+}
+
+.product-table-img {
+  width: 150px;
+  border-radius: 10px;
+  object-fit: cover;
+  padding-right: 20px;
+}
+
+.product-table-btn {
+    padding: 8px 20px;
+    font-size: 1.1rem;
+    border-radius: 10px;
+    color: var(--white);
+    background-color: var(--blue);
+    margin-right: 20px;
+}
