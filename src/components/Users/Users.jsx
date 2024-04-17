@@ -1,9 +1,8 @@
-import React from 'react'
+import React from "react";
+import ErrorBox from "../ErrorBox/ErrorBox";
 
 const Users = () => {
-  return (
-    <div>Users</div>
-  )
-}
+  return <ErrorBox msg={"هیچ کاربری یافت نشد"} />;
+};
 
-export default Users
+export default Users;

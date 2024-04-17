@@ -1,9 +1,8 @@
-import React from 'react'
+import React from "react";
+import ErrorBox from "../ErrorBox/ErrorBox";
 
 const Comments = () => {
-  return (
-    <div>Comments</div>
-  )
-}
+  return <ErrorBox msg={"هیچ کامنتی یافت نشد"} />;
+};
 
-export default Comments
+export default Comments;

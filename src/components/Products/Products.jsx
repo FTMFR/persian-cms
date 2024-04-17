@@ -1,9 +1,8 @@
-import React from 'react'
+import React from "react";
+import ErrorBox from "../ErrorBox/ErrorBox";
 
 const Products = () => {
-  return (
-    <div>Products</div>
-  )
-}
+  return <ErrorBox msg={"هیچ محصولی یافت نشد"} />;
+};
 
-export default Products
+export default Products;

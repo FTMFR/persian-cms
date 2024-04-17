@@ -20,7 +20,7 @@ const Sidebar = () => {
           </Link>
         </li>
         <li>
-          <Link href="/products">
+          <Link to="/products">
             <MdProductionQuantityLimits className="icons" />
             محصولات
           </Link>
