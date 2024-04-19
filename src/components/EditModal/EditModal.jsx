@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import "./dditModal.css";
+import "./editModal.css";
 
 const EditModal = ({ children, onClose, onSubmit }) => {
   useEffect(() => {

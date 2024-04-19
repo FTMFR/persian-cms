@@ -3,6 +3,7 @@ import "./productTable.css";
 import DeleteModal from "../DeleteModal/DeleteModal";
 import DetailsModal from "../DetailsModal/DetailsModal";
 import EditModal from "../EditModal/EditModal";
+import { AiOutlineDollarCircle } from "react-icons/ai";
 
 const ProductTable = () => {
   const [isShowDeleteModal, setIsShowDeleteModal] = useState(false);
@@ -87,7 +88,50 @@ const ProductTable = () => {
         <EditModal
           onClick={() => setIsShowEditModal(false)}
           onSubmit={submitEditModal}
-        />
+        >
+          {/* Children */}
+
+          <div className="edit-product-form-group">
+            <span>
+              <AiOutlineDollarCircle />
+            </span>
+            <input
+              type="text"
+              placeholder="اسم محصول جدید را وارد کنید."
+              className="edit-product-input"
+            />
+          </div>
+          <div className="edit-product-form-group">
+            <span>
+              <AiOutlineDollarCircle />
+            </span>
+            <input
+              type="text"
+              placeholder="محبوبیت جدید را وارد کنید."
+              className="edit-product-input"
+            />
+          </div>
+          <div className="edit-product-form-group">
+            <span>
+              <AiOutlineDollarCircle />
+            </span>
+            <input
+              type="text"
+              placeholder="تنوع جدید را وارد کنید."
+              className="edit-product-input"
+            />
+          </div>
+          <div className="edit-product-form-group">
+            <span>
+              <AiOutlineDollarCircle />
+            </span>
+            <input
+              type="text"
+              placeholder="قیمت جدید را وارد کنید."
+              className="edit-product-input"
+            />
+          </div>
+        </EditModal>
       )}
     </>
   );
