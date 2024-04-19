@@ -2,10 +2,12 @@ import React, { useState } from "react";
 import "./productTable.css";
 import DeleteModal from "../DeleteModal/DeleteModal";
 import DetailsModal from "../DetailsModal/DetailsModal";
+import EditModal from "../EditModal/EditModal";
 
 const ProductTable = () => {
   const [isShowDeleteModal, setIsShowDeleteModal] = useState(false);
   const [isShowDetailModal, setIsShowDetailModal] = useState(false);
+  const [isShowEditlModal, setIsShowEditModal] = useState(false);
 
   const deleteModalCancleAction = () => {
     setIsShowDeleteModal(false);
@@ -20,6 +22,12 @@ const ProductTable = () => {
   const closeDetailModal = () => {
     setIsShowDetailModal(false);
     console.log("مدال جزییات بسته شد");
+  };
+
+  const submitEditModal = (e) => {
+    setIsShowEditModal(false);
+    e.preventDefault();
+    console.log("محصول ویرایش شد");
   };
 
   return (
@@ -58,7 +66,12 @@ const ProductTable = () => {
               >
                 حذف
               </button>
-              <button className="product-table-btn">ویرایش</button>
+              <button
+                className="product-table-btn"
+                onClick={() => setIsShowEditModal(true)}
+              >
+                ویرایش
+              </button>
             </td>
           </tr>
         </tbody>
@@ -70,6 +83,12 @@ const ProductTable = () => {
         />
       )}
       {isShowDetailModal && <DetailsModal onHide={closeDetailModal} />}
+      {isShowEditlModal && (
+        <EditModal
+          onClick={() => setIsShowEditModal(false)}
+          onSubmit={submitEditModal}
+        />
+      )}
     </>
   );
 };
