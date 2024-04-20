@@ -1,23 +1,43 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./productTable.css";
 import DeleteModal from "../DeleteModal/DeleteModal";
 import DetailsModal from "../DetailsModal/DetailsModal";
 import EditModal from "../EditModal/EditModal";
 import { AiOutlineDollarCircle } from "react-icons/ai";
+import ErrorBox from "../ErrorBox/ErrorBox";
 
 const ProductTable = () => {
   const [isShowDeleteModal, setIsShowDeleteModal] = useState(false);
   const [isShowDetailModal, setIsShowDetailModal] = useState(false);
   const [isShowEditlModal, setIsShowEditModal] = useState(false);
+  const [allProducts, setAllProducts] = useState([]);
+  const [productID, setProductID] = useState(null);
+
+  useEffect(() => {
+    getAllProducts();
+  }, []);
+
+  const getAllProducts = () => {
+    fetch("http://localhost:8000/api/products/")
+      .then((res) => res.json())
+      .then((products) => setAllProducts(products));
+  };
 
   const deleteModalCancleAction = () => {
-    setIsShowDeleteModal(false);
     console.log("مدال کنسل شد");
+    setIsShowDeleteModal(false);
   };
 
   const deleteModalSubmitAction = () => {
-    setIsShowDeleteModal(false);
     console.log("مدال تایید شد");
+    fetch(`http://localhost:8000/api/products/${productID}`, {
+      method: "DELETE",
+    })
+      .then((res) => res.json())
+      .then((result) => {
+        setIsShowDeleteModal(false);
+        getAllProducts();
+      });
   };
 
   const closeDetailModal = () => {
@@ -33,50 +53,59 @@ const ProductTable = () => {
 
   return (
     <>
-      <table className="products-table">
-        <thead>
-          <tr className="product-table-heading-tr">
-            <th>عکس</th>
-            <th>اسم</th>
-            <th>قیمت</th>
-            <th>موجودی</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr className="product-table-tr">
-            <td>
-              <img
-                src="/img/oil.jpeg"
-                alt="oil"
-                className="product-table-img"
-              />
-            </td>
-            <td>روغن سرخ کردنی</td>
-            <td>92 هزار تومان</td>
-            <td>82</td>
-            <td>
-              <button
-                className="product-table-btn"
-                onClick={() => setIsShowDetailModal(true)}
-              >
-                جزییات
-              </button>
-              <button
-                className="product-table-btn"
-                onClick={() => setIsShowDeleteModal(true)}
-              >
-                حذف
-              </button>
-              <button
-                className="product-table-btn"
-                onClick={() => setIsShowEditModal(true)}
-              >
-                ویرایش
-              </button>
-            </td>
-          </tr>
-        </tbody>
-      </table>
+      {allProducts.length ? (
+        <table className="products-table">
+          <thead>
+            <tr className="product-table-heading-tr">
+              <th>عکس</th>
+              <th>اسم</th>
+              <th>قیمت</th>
+              <th>موجودی</th>
+            </tr>
+          </thead>
+          <tbody>
+            {allProducts.map((product) => (
+              <tr className="product-table-tr" key={product.id}>
+                <td>
+                  <img
+                    src={product.img}
+                    alt="product"
+                    className="product-table-img"
+                  />
+                </td>
+                <td>{product.title}</td>
+                <td>{product.price} هزار تومان</td>
+                <td>{product.count}</td>
+                <td>
+                  <button
+                    className="product-table-btn"
+                    onClick={() => setIsShowDetailModal(true)}
+                  >
+                    جزییات
+                  </button>
+                  <button
+                    className="product-table-btn"
+                    onClick={() => {
+                      setIsShowDeleteModal(true);
+                      setProductID(product.id);
+                    }}
+                  >
+                    حذف
+                  </button>
+                  <button
+                    className="product-table-btn"
+                    onClick={() => setIsShowEditModal(true)}
+                  >
+                    ویرایش
+                  </button>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      ) : (
+        <ErrorBox msg="هیچ محصولی یافت نشد." />
+      )}
       {isShowDeleteModal && (
         <DeleteModal
           submit={deleteModalSubmitAction}

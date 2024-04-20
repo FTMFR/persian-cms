@@ -1,7 +1,7 @@
 main url = http://localhost:3000/api/
 
 
-///////////////////// Start Products Routes (sub_url => products/) //////////////////////
+///////////////////// Start Products Routes (sub_url => cd /) //////////////////////
 
 1. Get all products
     method => get
