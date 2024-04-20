@@ -13,6 +13,13 @@ const ProductTable = () => {
   const [allProducts, setAllProducts] = useState([]);
   const [productID, setProductID] = useState(null);
   const [mainProductInfo, setMainProductInfo] = useState({});
+  const [productNewTitle, setProductNewTitle] = useState("");
+  const [productNewPrice, setProductNewPrice] = useState("");
+  const [productNewCount, setProductNewCount] = useState("");
+  const [productNewImg, setProductNewImg] = useState("");
+  const [productNewPopularity, setPorductNewPopularity] = useState("");
+  const [productNewSale, setProductNewSale] = useState("");
+  const [productNewColor, setProductNewColor] = useState("");
 
   useEffect(() => {
     getAllProducts();
@@ -98,7 +105,17 @@ const ProductTable = () => {
                   </button>
                   <button
                     className="product-table-btn"
-                    onClick={() => setIsShowEditModal(true)}
+                    onClick={() => {
+                      setIsShowEditModal(true);
+                      setMainProductInfo(product);
+                      setProductNewTitle(product.title);
+                      setProductNewColor(product.colors);
+                      setProductNewCount(product.count);
+                      setProductNewSale(product.sale);
+                      setProductNewPrice(product.price);
+                      setProductNewImg(product.img);
+                      setPorductNewPopularity(product.popularity);
+                    }}
                   >
                     ویرایش
                   </button>
@@ -150,28 +167,9 @@ const ProductTable = () => {
             </span>
             <input
               type="text"
-              placeholder="اسم محصول جدید را وارد کنید."
+              placeholder="عنوان جدید را وارد کنید."
               className="edit-product-input"
-            />
-          </div>
-          <div className="edit-product-form-group">
-            <span>
-              <AiOutlineDollarCircle />
-            </span>
-            <input
-              type="text"
-              placeholder="محبوبیت جدید را وارد کنید."
-              className="edit-product-input"
-            />
-          </div>
-          <div className="edit-product-form-group">
-            <span>
-              <AiOutlineDollarCircle />
-            </span>
-            <input
-              type="text"
-              placeholder="تنوع جدید را وارد کنید."
-              className="edit-product-input"
+              value={productNewTitle}
             />
           </div>
           <div className="edit-product-form-group">
@@ -182,6 +180,62 @@ const ProductTable = () => {
               type="text"
               placeholder="قیمت جدید را وارد کنید."
               className="edit-product-input"
+              value={productNewPrice}
+            />
+          </div>
+          <div className="edit-product-form-group">
+            <span>
+              <AiOutlineDollarCircle />
+            </span>
+            <input
+              type="text"
+              placeholder="موجودی جدید را وارد کنید."
+              className="edit-product-input"
+              value={productNewCount}
+            />
+          </div>
+          <div className="edit-product-form-group">
+            <span>
+              <AiOutlineDollarCircle />
+            </span>
+            <input
+              type="text"
+              placeholder="آدرس کاور جدید را وارد کنید."
+              className="edit-product-input"
+              value={productNewImg}
+            />
+          </div>
+          <div className="edit-product-form-group">
+            <span>
+              <AiOutlineDollarCircle />
+            </span>
+            <input
+              type="text"
+              placeholder="محبوبیت جدید را وارد کنید."
+              className="edit-product-input"
+              value={productNewPopularity}
+            />
+          </div>
+          <div className="edit-product-form-group">
+            <span>
+              <AiOutlineDollarCircle />
+            </span>
+            <input
+              type="text"
+              placeholder="میزان فروش جدید را وارد کنید."
+              className="edit-product-input"
+              value={productNewSale}
+            />
+          </div>
+          <div className="edit-product-form-group">
+            <span>
+              <AiOutlineDollarCircle />
+            </span>
+            <input
+              type="text"
+              placeholder="تعداد رنگ بندی جدید را وارد کنید."
+              className="edit-product-input"
+              value={productNewColor}
             />
           </div>
         </EditModal>
