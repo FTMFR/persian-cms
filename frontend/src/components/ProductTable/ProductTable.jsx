@@ -13,6 +13,7 @@ const ProductTable = () => {
   const [allProducts, setAllProducts] = useState([]);
   const [productID, setProductID] = useState(null);
   const [mainProductInfo, setMainProductInfo] = useState({});
+
   const [productNewTitle, setProductNewTitle] = useState("");
   const [productNewPrice, setProductNewPrice] = useState("");
   const [productNewCount, setProductNewCount] = useState("");
@@ -38,6 +39,7 @@ const ProductTable = () => {
 
   const deleteModalSubmitAction = () => {
     console.log("مدال تایید شد");
+
     fetch(`http://localhost:8000/api/products/${productID}`, {
       method: "DELETE",
     })
@@ -54,8 +56,33 @@ const ProductTable = () => {
   };
 
   const submitEditModal = (e) => {
-    setIsShowEditModal(false);
+    // setIsShowEditModal(false);
     e.preventDefault();
+
+    const productNewInfos = {
+      title: productNewTitle,
+      price: productNewPrice,
+      count: productNewCount,
+      img: productNewImg,
+      popularity: productNewPopularity,
+      sale: productNewSale,
+      colors: productNewColor,
+    };
+
+    fetch(`http://localhost:8000/api/products/${productID}`, {
+      method: "PUT",
+      headers: {
+        "Content-type": "application/json",
+      },
+      body: JSON.stringify(productNewInfos),
+    })
+      .then((res) => res.json())
+      .then((result) => {
+        console.log(result);
+        getAllProducts()
+        setIsShowEditModal(false)
+      });
+
     console.log("محصول ویرایش شد");
   };
 
@@ -107,6 +134,7 @@ const ProductTable = () => {
                     className="product-table-btn"
                     onClick={() => {
                       setIsShowEditModal(true);
+                      setProductID(product.id);
                       setMainProductInfo(product);
                       setProductNewTitle(product.title);
                       setProductNewColor(product.colors);
@@ -170,6 +198,7 @@ const ProductTable = () => {
               placeholder="عنوان جدید را وارد کنید."
               className="edit-product-input"
               value={productNewTitle}
+              onChange={(e) => setProductNewTitle(e.target.value)}
             />
           </div>
           <div className="edit-product-form-group">
@@ -181,6 +210,7 @@ const ProductTable = () => {
               placeholder="قیمت جدید را وارد کنید."
               className="edit-product-input"
               value={productNewPrice}
+              onChange={(e) => setProductNewPrice(e.target.value)}
             />
           </div>
           <div className="edit-product-form-group">
@@ -192,6 +222,7 @@ const ProductTable = () => {
               placeholder="موجودی جدید را وارد کنید."
               className="edit-product-input"
               value={productNewCount}
+              onChange={(e) => setProductNewCount(e.target.value)}
             />
           </div>
           <div className="edit-product-form-group">
@@ -203,6 +234,7 @@ const ProductTable = () => {
               placeholder="آدرس کاور جدید را وارد کنید."
               className="edit-product-input"
               value={productNewImg}
+              onChange={(e) => setProductNewImg(e.target.value)}
             />
           </div>
           <div className="edit-product-form-group">
@@ -214,6 +246,7 @@ const ProductTable = () => {
               placeholder="محبوبیت جدید را وارد کنید."
               className="edit-product-input"
               value={productNewPopularity}
+              onChange={(e) => setPorductNewPopularity(e.target.value)}
             />
           </div>
           <div className="edit-product-form-group">
@@ -225,6 +258,7 @@ const ProductTable = () => {
               placeholder="میزان فروش جدید را وارد کنید."
               className="edit-product-input"
               value={productNewSale}
+              onChange={(e) => setProductNewSale(e.target.value)}
             />
           </div>
           <div className="edit-product-form-group">
@@ -236,6 +270,7 @@ const ProductTable = () => {
               placeholder="تعداد رنگ بندی جدید را وارد کنید."
               className="edit-product-input"
               value={productNewColor}
+              onChange={(e) => setProductNewColor(e.target.value)}
             />
           </div>
         </EditModal>
