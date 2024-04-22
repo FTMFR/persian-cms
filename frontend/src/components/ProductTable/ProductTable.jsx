@@ -60,9 +60,9 @@ const ProductTable = ({ allProducts, getAllProducts }) => {
 
     fetch(`http://localhost:8000/api/products/${productID}`, {
       method: "PUT",
-      headers: {
-        "Content-type": "application/json",
-      },
+      // headers: {
+      //   "Content-type": "application/json",
+      // },
       body: JSON.stringify(productNewInfos),
     })
       .then((res) => res.json())
