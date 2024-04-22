@@ -6,11 +6,10 @@ import EditModal from "../EditModal/EditModal";
 import { AiOutlineDollarCircle } from "react-icons/ai";
 import ErrorBox from "../ErrorBox/ErrorBox";
 
-const ProductTable = () => {
+const ProductTable = ({ allProducts, getAllProducts }) => {
   const [isShowDeleteModal, setIsShowDeleteModal] = useState(false);
   const [isShowDetailModal, setIsShowDetailModal] = useState(false);
   const [isShowEditlModal, setIsShowEditModal] = useState(false);
-  const [allProducts, setAllProducts] = useState([]);
   const [productID, setProductID] = useState(null);
   const [mainProductInfo, setMainProductInfo] = useState({});
 
@@ -21,16 +20,6 @@ const ProductTable = () => {
   const [productNewPopularity, setPorductNewPopularity] = useState("");
   const [productNewSale, setProductNewSale] = useState("");
   const [productNewColor, setProductNewColor] = useState("");
-
-  useEffect(() => {
-    getAllProducts();
-  }, []);
-
-  const getAllProducts = () => {
-    fetch("http://localhost:8000/api/products/")
-      .then((res) => res.json())
-      .then((products) => setAllProducts(products));
-  };
 
   const deleteModalCancleAction = () => {
     console.log("مدال کنسل شد");
@@ -79,8 +68,8 @@ const ProductTable = () => {
       .then((res) => res.json())
       .then((result) => {
         console.log(result);
-        getAllProducts()
-        setIsShowEditModal(false)
+        getAllProducts();
+        setIsShowEditModal(false);
       });
 
     console.log("محصول ویرایش شد");
@@ -174,7 +163,7 @@ const ProductTable = () => {
 
             <tbody>
               <tr>
-                <td>{mainProductInfo.popularity}</td>
+                <td>{mainProductInfo.popularity}%</td>
                 <td>{mainProductInfo.sale}</td>
                 <td>{mainProductInfo.colors}</td>
               </tr>
