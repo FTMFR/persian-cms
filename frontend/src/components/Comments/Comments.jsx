@@ -1,23 +1,81 @@
 import React, { useEffect, useState } from "react";
 import ErrorBox from "../ErrorBox/ErrorBox";
-// import DeleteModal from "../DeleteModal/DeleteModal";
+import DeleteModal from "../DeleteModal/DeleteModal";
 import DetailsModal from "../DetailsModal/DetailsModal";
 import "./comments.css";
 import "../../css/cms.css";
+import EditModal from "../EditModal/EditModal";
 
 const Comments = () => {
-  const [allComments, setAllComments] = useState("");
-  const [isShowDetailModal, setIsShowDetailModal] = useState(false);
+  const [allComments, setAllComments] = useState([]);
   const [commentID, setCommentID] = useState("");
+  const [isShowDetailModal, setIsShowDetailModal] = useState(false);
+  const [isShowDeleteModal, setIsShowDeleteModal] = useState(false);
+  const [isShowEditModal, setIsShowEditModal] = useState(false);
+  const [isShowAcceptModal, setIsShowAcceptModal] = useState(false);
+  const [commentIDApi, setCommentIDApi] = useState(null);
 
   useEffect(() => {
+    getAllComments();
+  }, []);
+
+  function getAllComments() {
     fetch(`http://localhost:8000/api/comments`, { method: "GET" })
       .then((res) => res.json())
       .then((results) => setAllComments(results));
-  }, []);
+  }
 
   const closeDetailModal = () => {
     setIsShowDetailModal(false);
+  };
+
+  const cancleAction = () => {
+    setIsShowDetailModal(false);
+  };
+
+  const closEditModal = () => {
+    setIsShowEditModal(false);
+  };
+
+  const closeAcceptModal = () => {
+    setIsShowAcceptModal(false);
+  };
+
+  const submitAcceptModal = () => {
+    console.log("کامنت تایید شد.");
+    setIsShowAcceptModal(false);
+  };
+
+  const submitAction = () => {
+    fetch(`http://localhost:8000/api/comments/${commentIDApi}`, {
+      method: "DELETE",
+    })
+      .then((res) => res.json())
+      .then((result) => {
+        setIsShowDeleteModal(false);
+        getAllComments();
+      });
+  };
+
+  const submitEditModal = (e) => {
+    e.preventDefault();
+    console.log("کامنت آپدیت شد");
+
+    fetch(`http://localhost:8000/api/comments/${commentIDApi}`, {
+      method: "PUT",
+      headers: {
+        "Content-type": "application/json",
+      },
+      body: JSON.stringify({
+        body: commentID,
+      }),
+    })
+      .then((res) => res.json())
+      .then((result) => {
+        console.log(result);
+        setIsShowEditModal(false);
+        getAllComments();
+      });
   };
 
   return (
@@ -45,6 +103,7 @@ const Comments = () => {
                     <button
                       onClick={() => {
                         setCommentID(comment.body);
+                        console.log(commentID);
                         setIsShowDetailModal(true);
                       }}
                     >
@@ -54,10 +113,26 @@ const Comments = () => {
                   <th>{comment.date}</th>
                   <th>{comment.hour}</th>
                   <td>
-                    <button>حذف</button>
-                    <button>ویرایش</button>
+                    <button
+                      onClick={() => {
+                        setIsShowDeleteModal(true);
+                        setCommentIDApi(comment.id);
+                      }}
+                    >
+                      حذف
+                    </button>
+                    <button
+                      onClick={() => {
+                        setIsShowEditModal(true);
+                        setCommentID(comment.body);
+                      }}
+                    >
+                      ویرایش
+                    </button>
                     <button>پاسخ</button>
-                    <button>تایید</button>
+                    <button onClick={() => setIsShowAcceptModal(true)}>
+                      تایید
+                    </button>
                   </td>
                 </tr>
               ))}
@@ -74,6 +149,26 @@ const Comments = () => {
             بستن
           </button>
         </DetailsModal>
+      )}
+      {isShowDeleteModal && (
+        <DeleteModal submit={submitAction} cancle={cancleAction} />
+      )}
+      {isShowEditModal && (
+        <EditModal onClose={closEditModal} onSubmit={submitEditModal}>
+          <textarea
+            cols="30"
+            rows="10"
+            value={commentID}
+            onChange={(e) => setCommentID(e.target.value)}
+          />
+        </EditModal>
+      )}
+      {isShowAcceptModal && (
+        <DeleteModal
+          title="آیا از تایید اطمینان دارید؟"
+          cancle={closeAcceptModal}
+          submit={submitAcceptModal}
+        />
       )}
     </>
   );
