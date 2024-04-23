@@ -13,6 +13,7 @@ const Comments = () => {
   const [isShowDeleteModal, setIsShowDeleteModal] = useState(false);
   const [isShowEditModal, setIsShowEditModal] = useState(false);
   const [isShowAcceptModal, setIsShowAcceptModal] = useState(false);
+  const [isShowRejectModal, setIsShowRejectModal] = useState(false);
   const [commentIDApi, setCommentIDApi] = useState(null);
 
   useEffect(() => {
@@ -41,8 +42,37 @@ const Comments = () => {
     setIsShowAcceptModal(false);
   };
 
+  const closeRejectModal = () => {
+    setIsShowRejectModal(false);
+  };
+
+  const rejectModal = () => {
+    console.log("کامنت رد شد");
+
+    fetch(`http://localhost:8000/api/comments/reject/${commentIDApi}`, {
+      method: "POST",
+    })
+      .then((res) => res.json())
+      .then((result) => {
+        console.log(result);
+        setIsShowRejectModal(false);
+        getAllComments();
+      });
+  };
+
   const submitAcceptModal = () => {
-    console.log("کامنت تایید شد.");
+    console.log("کامنت تایید شد");
+
+    fetch(`http://localhost:8000/api/comments/accept/${commentIDApi}`, {
+      method: "POST",
+    })
+      .then((res) => res.json())
+      .then((result) => {
+        console.log(result);
+        setIsShowAcceptModal(false);
+        getAllComments();
+      });
+
     setIsShowAcceptModal(false);
   };
 
@@ -79,69 +109,84 @@ const Comments = () => {
   };
 
   return (
-    <>
+    <div className="cms-main">
       {allComments.length ? (
-        <div className="cms-main">
-          {/* <DeleteModal /> */}
-          <table className="cms-table">
-            <thead>
-              <tr>
-                <th>اسم کاربر</th>
-                <th>محصول</th>
-                <th>متن کامنت</th>
-                <th>تاریخ ثبت</th>
-                <th>ساعت ثبت</th>
-              </tr>
-            </thead>
+        <table className="cms-table">
+          <thead>
+            <tr>
+              <th>اسم کاربر</th>
+              <th>محصول</th>
+              <th>متن کامنت</th>
+              <th>تاریخ ثبت</th>
+              <th>ساعت ثبت</th>
+            </tr>
+          </thead>
 
-            <tbody>
-              {allComments.map((comment) => (
-                <tr key={comment.id}>
-                  <th>{comment.userID}</th>
-                  <th>{comment.productId}</th>
-                  <td>
+          <tbody>
+            {allComments.map((comment) => (
+              <tr key={comment.id}>
+                <th>{comment.userID}</th>
+                <th>{comment.productId}</th>
+                <td>
+                  <button
+                    onClick={() => {
+                      setCommentID(comment.body);
+                      console.log(commentID);
+                      setIsShowDetailModal(true);
+                    }}
+                  >
+                    دیدن متن
+                  </button>
+                </td>
+                <th>{comment.date}</th>
+                <th>{comment.hour}</th>
+                <td>
+                  <button
+                    onClick={() => {
+                      setIsShowDeleteModal(true);
+                      setCommentIDApi(comment.id);
+                    }}
+                  >
+                    حذف
+                  </button>
+                  <button
+                    onClick={() => {
+                      setIsShowEditModal(true);
+                      setCommentID(comment.body);
+                      setCommentIDApi(comment.id);
+                    }}
+                  >
+                    ویرایش
+                  </button>
+                  <button>پاسخ</button>
+                  {comment.isAccept === 0 ? (
                     <button
                       onClick={() => {
-                        setCommentID(comment.body);
-                        console.log(commentID);
-                        setIsShowDetailModal(true);
-                      }}
-                    >
-                      دیدن متن
-                    </button>
-                  </td>
-                  <th>{comment.date}</th>
-                  <th>{comment.hour}</th>
-                  <td>
-                    <button
-                      onClick={() => {
-                        setIsShowDeleteModal(true);
+                        setIsShowAcceptModal(true);
                         setCommentIDApi(comment.id);
                       }}
                     >
-                      حذف
-                    </button>
-                    <button
-                      onClick={() => {
-                        setIsShowEditModal(true);
-                        setCommentID(comment.body);
-                      }}
-                    >
-                      ویرایش
-                    </button>
-                    <button>پاسخ</button>
-                    <button onClick={() => setIsShowAcceptModal(true)}>
                       تایید
                     </button>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
+                  ) : (
+                    <button
+                      onClick={() => {
+                        setIsShowAcceptModal(true);
+                        setCommentIDApi(comment.id);
+                      }}
+                    >
+                      رد
+                    </button>
+                  )}
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
       ) : (
         <ErrorBox msg={"هیج کامنتی دریافت نشد."} />
       )}
+
       {isShowDetailModal && (
         <DetailsModal onHide={closeDetailModal}>
           <p className="text-modal">{commentID}</p>
@@ -170,7 +215,14 @@ const Comments = () => {
           submit={submitAcceptModal}
         />
       )}
-    </>
+      {isShowRejectModal && (
+        <DeleteModal
+          title="آیا از رد اطمینان دارید؟"
+          cancle={closeRejectModal}
+          submit={rejectModal}
+        />
+      )}
+    </div>
   );
 };
 
