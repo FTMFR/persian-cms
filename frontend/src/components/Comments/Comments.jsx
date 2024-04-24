@@ -197,7 +197,7 @@ const Comments = () => {
         </DetailsModal>
       )}
       {isShowDeleteModal && (
-        <DeleteModal submit={submitAction} cancle={cancleAction} />
+        <DeleteModal submit={submitAction} cancle={cancleAction} title='آیا از حذف کامنت اطمینان دارید؟' />
       )}
       {isShowEditModal && (
         <EditModal onClose={closEditModal} onSubmit={submitEditModal}>
